@@ -42,3 +42,8 @@ When using custom 3d glasses make sure the model is oriented in the right way. Y
 Face Transform Module is not available in facemesh javascript. So it does not give proper depth / z coordinates. So 3d effect look weird when using perspective camera.
 
 While writing code to places objects relative to facemesh model, [facemesh model UV visualization](https://github.com/google/mediapipe/blob/master/mediapipe/modules/face_geometry/data/canonical_face_model_uv_visualization.png) can be helpful.
+
+
+## Needed
+
+1. Canvas logic, because need the canvas just like 

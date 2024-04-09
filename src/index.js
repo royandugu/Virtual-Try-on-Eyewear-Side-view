@@ -1,14 +1,10 @@
 import "./styles.css";
 import { PUBLIC_PATH } from './js/public_path';
-import { VideoFrameProvider } from './js/video_frame_provider';
 import { CameraFrameProvider } from './js/camera_frame_provider';
 import { FacemeshLandmarksProvider } from './js/facemesh/landmarks_provider';
 import { SceneManager } from "./js/three_components/scene_manager";
 import { Glasses } from "./js/three_components/glasses";
 import * as THREE from 'three';
-
-
-
 
 
 const template = `

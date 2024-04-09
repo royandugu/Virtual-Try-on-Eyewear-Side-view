@@ -56,7 +56,7 @@ body {
   left:30%;
   right:30%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   gap:50px;
   align-items: center;
   overflow: auto;
