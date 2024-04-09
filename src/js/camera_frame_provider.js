@@ -6,9 +6,9 @@ export class CameraFrameProvider {
       onFrame: async () => {
         onFrame(videoElement)
       },
-      width: 1280,
-      height: 720
-    });
+      width: window.innerWidth,
+      height: window.innerHeight,
+    },);
     this.camera = camera;
   }
 
