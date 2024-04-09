@@ -3,20 +3,7 @@ body {
   color: #fff;
 }
 /* column wise on mobile */
-.video-container {
-  display: flex;
-  flex-direction: column;
-  max-width: 1024px;
-  margin: 0 auto;
-  position: relative;
-}
 
-.video-container > div {
-  flex: 1;
-  margin-bottom: 20px;
-  margin-left: 20px;
-  margin-right: 20px;
-}
 
 .video-container h2 {
   font-family: serif;
@@ -51,9 +38,32 @@ body {
 .input_video {
   width: 100%;
   height: auto;
+  display: none;
 }
 
 .output_canvas {
   width: 100%;
   height: auto;
+}
+
+
+.glasses_choose_container{
+  height:100px;
+  background:white;
+  position: fixed;
+  bottom: 50px;
+  left:30%;
+  right:30%;
+  display: flex;
+  justify-content: center;
+  gap:50px;
+  align-items: center;
+  overflow: auto;
+}
+.glass_one{
+  height:30px;
+  width:30px;
+  background:black;
+  border-radius: 50%;
+  flex-shrink: 0;
 }

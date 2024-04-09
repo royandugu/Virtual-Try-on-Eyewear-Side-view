@@ -1,6 +1,5 @@
 
 import * as THREE from 'three';
-import { makeGeometry } from '../facemesh/landmarks_helpers';
 
 export class FaceMask {
   constructor(scene, width, height) {
@@ -29,14 +28,6 @@ export class FaceMask {
     this.material.needsUpdate = true;
   }
 
-  addFaces() {
-    // create faces
-    let geometry = makeGeometry(this.landmarks);
-    this.faces = new THREE.Mesh(geometry, this.material);
-    this.faces.position.set(0, 0, 0);
-    this.faces.scale.set(this.width, this.height, this.width);
-    this.scene.add(this.faces);
-  }
 
   removeFaces() {
     this.scene.remove(this.faces);
@@ -46,9 +37,6 @@ export class FaceMask {
     if (this.needsUpdate) {
       if (this.faces != null) {
         this.removeFaces();
-      }
-      if (this.landmarks != null) {
-        this.addFaces();
       }
       this.needsUpdate = false;
     }

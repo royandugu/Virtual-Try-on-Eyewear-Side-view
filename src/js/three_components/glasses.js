@@ -22,17 +22,18 @@ export class Glasses {
     this.height = height;
     this.needsUpdate = false;
     this.landmarks = null;
-    this.loadGlasses();
+    this.loadGlasses("3d/black-glasses/scene.gltf");
   }
 
-  async loadGlasses() {
-    this.glasses = await loadModel( `${PUBLIC_PATH}/3d/black-glasses/scene.gltf` );
-
+  async loadGlasses(glassUrl) {
+    console.log("Glasses url",glassUrl)
+    // 3d/black-glasses/scene.gltf
+    
+    this.glasses = await loadModel( `${PUBLIC_PATH}/${glassUrl}` );
     // scale glasses
     const bbox = new THREE.Box3().setFromObject(this.glasses);
     const size = bbox.getSize(new THREE.Vector3());
     this.scaleFactor = size.x;
-
     this.glasses.name = 'glasses';
   }
 

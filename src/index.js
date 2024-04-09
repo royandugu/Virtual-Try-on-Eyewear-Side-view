@@ -4,21 +4,37 @@ import { VideoFrameProvider } from './js/video_frame_provider';
 import { CameraFrameProvider } from './js/camera_frame_provider';
 import { FacemeshLandmarksProvider } from './js/facemesh/landmarks_provider';
 import { SceneManager } from "./js/three_components/scene_manager";
+import { Glasses } from "./js/three_components/glasses";
+import * as THREE from 'three';
+
+
+
+
 
 const template = `
 <div class="video-container">
   <span class="loader">
     Loading ...
   </span>
+
+  <canvas class="output_canvas"></canvas>
+  <div class="glasses_choose_container"/>
+    <a class="glass_one"></a>
+    <a class="glass_one"></a>
+    <a class="glass_one"></a>
+    <a class="glass_one"></a> 
+    <a class="glass_one"></a>
+    <a class="glass_one"></a>
+    <a class="glass_one"></a>
+    <a class="glass_one"></a>
+    <a class="glass_one"></a>
+    <a class="glass_one"></a>
+    <a class="glass_one"></a>
+    <a class="glass_one"></a> 
   <div>
-    <h2>Original Video</h2>
     <video class="input_video" controls playsinline>
       <source  src="${PUBLIC_PATH}/video/videoplayback2.mp4">
     </video>
-  </div>
-  <div>
-    <h2>Processed Video</h2>
-    <canvas class="output_canvas"></canvas>
   </div>
 </div>
 `;
@@ -43,6 +59,22 @@ async function main() {
     sceneManager.onLandmarks(image, landmarks);
   }
 
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    devicePixelRation: window.devicePixelRatio || 1
+  });
+
+  const changeGlass=()=>{
+    const glass=new Glasses(sceneManager,renderer.domElement.width,renderer.domElement.height);
+    console.log(glass);
+    glass.loadGlasses("3d/glasses/scene.gltf");
+    glass.needsUpdate=true;
+  }
+
+  document.querySelectorAll(".glass_one").forEach(glass=>{
+    glass.addEventListener("click",changeGlass)
+  })
+
   const onFrame = async (video) => {
     try {
       await facemeshLandmarksProvider.send(video);
@@ -55,27 +87,20 @@ async function main() {
 
   function animate () {
     requestAnimationFrame(animate);
-    sceneManager.resize(video.clientWidth, video.clientHeight);
+    sceneManager.resize(window.innerWidth, window.innerHeight);
     sceneManager.animate();
   }
 
   sceneManager = new SceneManager(canvas, debug, useOrtho);
   facemeshLandmarksProvider = new FacemeshLandmarksProvider(onLandmarks);
 
-  if (confirm("Use Camera?")) {
-    // unload video
+  // unload video
     video.pause();
     video.querySelector("source").remove();
     video.removeAttribute('src');
     video.load();
 
     videoFrameProvider = new CameraFrameProvider(video, onFrame);
-
-  } else {
-
-    videoFrameProvider = new VideoFrameProvider(video, onFrame);
-
-  }
   
   await facemeshLandmarksProvider.initialize();
   videoFrameProvider.start();
