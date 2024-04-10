@@ -15,6 +15,7 @@ import {
  * @param {*} landmarks 
  */
 export const transformLandmarks = (landmarks) => {
+
   if (!landmarks) {
     return landmarks;
   }
@@ -79,6 +80,7 @@ export const makeGeometry = (landmarks) => {
     let {x, y, z} = landmarks[i];
     let vertex =  [x, y, z];
     vertices.push(...vertex);
+    console.log(vertices); 
   }
   for (let j = 0; j < 468; j++) {
     uvs[j * 2] = FACE_MESH_UV[j][0];

@@ -36,10 +36,9 @@ export class SceneManager {
     });
     this.fov = 63;
     this.buildCamera();
-    this.buildControls();
+    this.buildControls(); 
     this.buildVideoBg();
     this.buildFaceMask();
-    this.buildGlasses();
   }
 
   buildVideoBg() {
@@ -49,7 +48,6 @@ export class SceneManager {
       this.renderer.domElement.height
     );
   }
-
   buildFaceMask() {
     // this component draws faces
     this.faceMask = new FaceMask(this.scene, 
@@ -58,11 +56,15 @@ export class SceneManager {
     )
   }
 
-  buildGlasses() {
+  buildGlasses(url, toChange) {
     this.glasses = new Glasses(this.scene,
       this.renderer.domElement.width,
       this.renderer.domElement.height
     )
+    if(toChange){
+      this.glasses.removeGlasses();
+    }
+    this.glasses.loadGlasses(url);
   }
 
   buildControls() {

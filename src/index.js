@@ -3,7 +3,6 @@ import { PUBLIC_PATH } from './js/public_path';
 import { CameraFrameProvider } from './js/camera_frame_provider';
 import { FacemeshLandmarksProvider } from './js/facemesh/landmarks_provider';
 import { SceneManager } from "./js/three_components/scene_manager";
-import { Glasses } from "./js/three_components/glasses";
 import * as THREE from 'three';
 
 
@@ -55,23 +54,7 @@ async function main() {
     sceneManager.onLandmarks(image, landmarks);
   }
 
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    devicePixelRation: window.devicePixelRatio || 1
-  });
-
-  const changeGlass=()=>{
-    const glass=new Glasses(sceneManager,renderer.domElement.width,renderer.domElement.height);
-    console.log(glass);
-    glass.loadGlasses("3d/glasses/scene.gltf");
-    glass.needsUpdate=true;
-  }
-
-  document.querySelectorAll(".glass_one").forEach(glass=>{
-    glass.addEventListener("click",changeGlass)
-  })
-
-  const onFrame = async (video) => {
+  const onFrame = async (video) => {  
     try {
       await facemeshLandmarksProvider.send(video);
     } catch (e) {
@@ -88,7 +71,22 @@ async function main() {
   }
 
   sceneManager = new SceneManager(canvas, debug, useOrtho);
+  sceneManager.buildGlasses("3d/glasses/scene.gltf");
+
   facemeshLandmarksProvider = new FacemeshLandmarksProvider(onLandmarks);
+
+
+  const changeGlass=async ()=>{
+    sceneManager.glasses.removeGlasses();
+    sceneManager.buildGlasses("3d/black-glasses/scene.gltf");
+    sceneManager.glasses.addGlasses();
+  }
+
+  document.querySelectorAll(".glass_one").forEach(glass=>{
+    glass.addEventListener("click",async ()=>{
+      await changeGlass();
+    })
+  })
 
   // unload video
     video.pause();
